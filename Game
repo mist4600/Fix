@@ -1,0 +1,54 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class Game {
+	public static void main(String[] args) {
+	
+
+		System.out.println("---Game starts---");
+		Scanner scnr = new Scanner(System.in);
+		System.out.print("Enter your name: ");
+		Player player1 = new Player(scnr.nextLine(), true);
+		System.out.print("Give a name to your computer opponent: " );
+		Player CPU = new Player(scnr.nextLine(), false);
+		
+		String line;
+		int y;
+		int x;
+		Random randGen = new Random();
+
+		//main loop
+		// Deliverable 2
+		// breaks if all ships on either side are dead
+		while(player1.isAlive() && CPU.isAlive()) {
+			// enter a coordinate
+			line = scnr.nextLine();
+			// parse the line
+			String[] tokens = line.split(" ");
+			y = Integer.parseInt(tokens[0]);
+			x = Integer.parseInt(tokens[1]);
+			
+			// shoot the enemy board
+			Board.getShot(CPU.getBoard(),x,y);
+			// edit it so that its between whatever
+			Board.getShot(player1.getBoard(),randGen.nextInt(),randGen.nextInt());
+
+			/// int[] coord1 = player1.shoot();
+			// System.out.println(coord1[0] + " " + coord1[1]);
+			// char result1 = CPU.receive(coord1[0], coord1[1]);
+			// System.out.println("The result is " + result1);
+			
+			/*
+			CPU.getEnemyBoard();
+			int[] coord2 = CPU.shoot();
+			System.out.println(coord2[0] + " " + coord2[1]);
+			char result2 = CPU.receive(coord2[0], coord2[1]);
+			System.out.println("The result is " + result2);
+			*/
+			
+			// uses toString() to print out the board
+			System.out.println(player1.getBoard());
+			System.out.println(CPU.getBoard());
+		}
+	}
+}
