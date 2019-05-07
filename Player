@@ -1,0 +1,97 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class Player {
+	private String name;
+	//private final Board board;
+	private Board ownBoard = new Board();
+	public boolean isHuman;
+	Scanner scnr = new Scanner(System.in);
+	Random rand = new Random();
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Player(String name, boolean isHuman) {
+		if (isHuman) {
+			this.name = name;
+			this.isHuman = isHuman;
+			ownBoard = new Board(this);
+		}
+		else {
+			this.name = name;
+			this.isHuman = isHuman;
+			enemyBoard = new Board(this);
+		}
+	}
+	
+
+	public int[] shoot() {
+		int[] coord = new int[2];
+		System.out.println(this.name + " is shooting on the other player");
+		if(isHuman) {
+			while(true) {
+				System.out.print("Enter coordinates col row: ");
+				int c = scnr.nextInt();
+				int r = scnr.nextInt();
+				char cell = enemyBoard.checkCell(r, c);
+				System.out.println(cell);
+				if(cell == Board.SEA) {
+					coord[0] = r;
+					coord[1] = c;
+					break;
+				}
+				
+
+			}
+			
+
+			
+
+		} else {
+			while(true) {
+				int c = rand.nextInt(9);
+				int r = rand.nextInt(14);
+				char cell = ownBoard.checkCell(r, c);
+				System.out.println(cell);
+				if(cell == Board.SEA) {
+					coord[0] = r;
+					coord[1] = c;
+					break;
+				}
+			}	
+		}//else
+		
+
+		return coord;
+		
+
+	}//shoot
+	
+
+	public char receive(int r, int c) {
+		if(ownBoard.checkCell(r, c) == Board.SHIP) {
+			return Board.HIT;
+		} else {
+			return Board.MISS;
+		}
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public Board getBoard() {
+		return ownBoard;
+	}
+
+//	public boolean isAlive() {
+//		for(Ship ship : board.ships) {
+//			if(ship.alive) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+}
